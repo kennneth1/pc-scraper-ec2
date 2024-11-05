@@ -50,7 +50,7 @@ def main():
     formatted_date = now.strftime("%Y-%m-%d")
 
     #write to s3 bucket as csv
-    bucket = "pricecharting-scraper-outputs/"
+    bucket = "pricecharting-scraper-outputs"
     file_path = f"{formatted_date}/pc.csv"
     print("saving to S3, final_df of shape:", final_df.shape, final_df.head(5))
     write_csv_to_s3(final_df, bucket, file_path, aws_access_key_id=None, aws_secret_access_key=None)
