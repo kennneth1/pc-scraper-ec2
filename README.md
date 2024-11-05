@@ -1,5 +1,5 @@
 **What**:
-- Scrapes https://www.pricecharting.com all the top 50 most expensive products in a set, for all set names stored in a `config.json` (S3 bucket: configs-pc-psa)
+- Scrapes https://www.pricecharting.com all the top 50 most expensive products in a set, for all set names stored in a `config.json` (S3 bucket: configs-pc-psa), then dumps to another S3 bucket (price-charting-scraper-output)
    - monthly average price since January 2021 - if scraping a card, the scraper returns monthly average prices for its near mint, PSA7, PSA8, PSA9, BGS9.5, and PSA10 versions
    - https://www.pricecharting.com/game/pokemon-fusion-strike/espeon-vmax-270
 - Once deployed, runs 1x/month to overwrite toto RDS table: `psa_data`
