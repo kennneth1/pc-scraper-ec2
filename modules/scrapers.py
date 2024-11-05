@@ -95,8 +95,7 @@ def setup_driver(mode):
 
     return driver
 
-def price_scraper(poke_object, mode="headless"):
-    driver=setup_driver(mode)
+def price_scraper(poke_object, driver):
     url = f'https://www.pricecharting.com/game/pokemon-{poke_object.set_name}/{poke_object.name}-{poke_object.num}'
     
     if poke_object.product_type=='sealed':
