@@ -4,4 +4,3 @@ pandas
 webdriver_manager
 selenium
 boto3
-sqlalchemy
