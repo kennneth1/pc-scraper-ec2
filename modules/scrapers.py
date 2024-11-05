@@ -5,6 +5,7 @@ from modules.utils import get_random_user_agent
 import time
 import requests
 from bs4 import BeautifulSoup
+from logger import logger
 
 def map_grade(raw_grade):
     proper_grade = ''
@@ -45,7 +46,7 @@ def top_50_set_scraper(set_name):
             # Get the product_name name and number from the link text
             product_name = link.text.strip().lower()
             data = {}
-            print(f"found product name: {product_name}")
+            logger.info(f"found product name: {product_name}")
 
             keywords = [" box", "build", "collection", "blister", "bundle", " tin", "booster pack"]
             # if sealed product
@@ -67,18 +68,18 @@ def top_50_set_scraper(set_name):
             product_data.append(data)
 
     for data in product_data:
-        print(data)
+        logger.info(data)
 
-    print(f'{set_name}: total products scraped={len(product_data)}')
+    logger.info(f'{set_name}: total products scraped={len(product_data)}')
     return product_data
 
 def setup_driver(mode):
-    print("setup_driver(): choosing random agent")
+    logger.info("setup_driver(): choosing random agent")
     user_agent = get_random_user_agent()
     chrome_options = Options()
     
     if mode == "headless":
-        print("setup_driver(): running in headless mode")
+        logger.info("setup_driver(): running in headless mode")
         chrome_options.add_argument("--headless")    
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
@@ -89,9 +90,9 @@ def setup_driver(mode):
     driver = webdriver.Chrome(options=chrome_options)
    
     if driver is None:
-        print("\nsetup_driver(): driver initialization failed")
+        logger.error("\nsetup_driver(): driver initialization failed")
     else:
-        print("\nsetup_driver(): initialized driver")        
+        logger.info("\nsetup_driver(): initialized driver")        
 
     return driver
 
@@ -101,16 +102,16 @@ def price_scraper(poke_object, mode="headless"):
     
     if poke_object.product_type=='sealed':
         url = f'https://www.pricecharting.com/game/pokemon-{poke_object.set_name}/{poke_object.name}'
-        print(f"price_scraper(): sealed product has url= {url}")
+        logger.info(f"price_scraper(): sealed product has url= {url}")
 
     try:
-        print(f"price_scraper(): getting url: {url}")
+        logger.info(f"price_scraper(): getting url: {url}")
         driver.get(url)
         time.sleep(5)  # Wait for the page to load
         
         page_source = driver.page_source
         soup = BeautifulSoup(page_source, 'html.parser')
-        print("price_scraper(): got soup.head.title:", soup.head.title)
+        logger.info("price_scraper(): got soup.head.title:", soup.head.title)
 
         chart_data = driver.execute_script("return VGPC.chart_data;")
         converted_data = convert_timestamps(chart_data)
@@ -142,14 +143,14 @@ def price_scraper(poke_object, mode="headless"):
                     entry["set_month"] = poke_object.set_month
                     result.append(entry)
         
-        print("converting to df")
+        logger.info("converting to df")
         df = pd.DataFrame(result)
         df['execution_datetime'] = pd.Timestamp.now()
-        print("price_scraper(): df of shape", df.shape, df.head(5))
+        logger.info("price_scraper(): df of shape", df.shape, df.head(5))
         return df
     
     except Exception as e:
-        print(f"price_scraper(): An error occurred: {e}")
+        logger.error(f"price_scraper(): An error occurred: {e}")
 
     finally:
         driver.quit()  # Make sure to close the browser
