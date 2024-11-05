@@ -168,10 +168,10 @@ def setup_driver(mode):
 
 def price_scraper(poke_object, mode="headless"):
     driver=setup_driver(mode)
-    url = f'https://www.pricecharting.com/game/pokemon-{poke_object.set_name}/{poke_object.poke_name}-{poke_object.poke_no}'
+    url = f'https://www.pricecharting.com/game/pokemon-{poke_object.set_name}/{poke_object.name}-{poke_object.num}'
     
-    if poke_object.prod_type=='sealed':
-        url = f'https://www.pricecharting.com/game/pokemon-{poke_object.set_name}/{poke_object.poke_name}'
+    if poke_object.product_type=='sealed':
+        url = f'https://www.pricecharting.com/game/pokemon-{poke_object.set_name}/{poke_object.name}'
         print(f"sealed product has url: {url}")
 
     try:
@@ -188,12 +188,12 @@ def price_scraper(poke_object, mode="headless"):
         
         result = []
 
-        if poke_object.prod_type=="sealed":
+        if poke_object.product_type=="sealed":
             nm_data = converted_data["used"]
             for entry in nm_data:
                 entry['grade']='nearmint'
-                entry['poke_name']=poke_object.poke_name
-                entry['poke_no']=poke_object.poke_no
+                entry['poke_name']=poke_object.name
+                entry['poke_no']=poke_object.num
                 entry["set_name"]=poke_object.set_name
                 entry["product_type"]="sealed"
                 entry["set_year"] = poke_object.set_year
@@ -205,8 +205,8 @@ def price_scraper(poke_object, mode="headless"):
                 for entry in price_arr:                    
                     fmt_grade = map_grade(grade)
                     entry['grade']=fmt_grade
-                    entry['poke_name']=poke_object.poke_name
-                    entry['poke_no']=poke_object.poke_no
+                    entry['poke_name']=poke_object.name
+                    entry['poke_no']=poke_object.num
                     entry["set_name"]=poke_object.set_name
                     entry["product_type"]="card"
                     entry["set_year"] = poke_object.set_year
