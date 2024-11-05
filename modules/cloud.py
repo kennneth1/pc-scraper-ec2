@@ -4,6 +4,7 @@ import base64
 from botocore.exceptions import ClientError
 from io import StringIO
 import os
+from .logger import logger
 
 def get_aws_credentials():
     aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
@@ -15,23 +16,23 @@ def get_aws_credentials():
     }
 
     if aws_access_key_id and aws_secret_access_key:
-        print("get_aws_credentials(): using .env credentials")
+        logger.info("get_aws_credentials(): using .env credentials")
         session_params['aws_access_key_id'] = aws_access_key_id
         session_params['aws_secret_access_key'] = aws_secret_access_key
     else:
-        print("get_aws_credentials(): No environment variables for credentials found, assuming IAM role")
-        print("session params:", session_params)
+        logger.info("get_aws_credentials(): No environment variables for credentials found, assuming IAM role")
+        logger.info("session params:", session_params)
     return boto3.Session(**session_params)
 
 def get_secret():
     secret_name = os.getenv('AWS_SECRET_NAME')
     if not secret_name:
-        print("get_secret(): AWS_SECRET_NAME environment variable is not set, returning None secret_name")
+        logger.info("get_secret(): AWS_SECRET_NAME environment variable is not set, returning None secret_name")
         return None
     
     session = get_aws_credentials()
     client = session.client('secretsmanager')
-    print("get_secret(): got session:", session)
+    logger.info("get_secret(): got session:", session)
 
     try:
         # Retrieve the secret
@@ -49,7 +50,7 @@ def get_secret():
 
     except ClientError as e:
         # Handle the exception
-        print(f"Error retrieving secret: {e}")
+        logger.error(f"Error retrieving secret: {e}")
         return None
 
 def read_json_from_s3(bucket_name, file_key):
@@ -63,7 +64,7 @@ def read_json_from_s3(bucket_name, file_key):
         return data
 
     except Exception as e:
-        print(f"Error reading JSON file from S3: {e}")
+        logger.error(f"Error reading JSON file from S3: {e}")
         return None
 
 def write_csv_to_s3(dataframe, bucket_name, s3_file_path, aws_access_key_id=None, aws_secret_access_key=None):

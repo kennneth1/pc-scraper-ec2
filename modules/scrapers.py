@@ -5,7 +5,7 @@ from modules.utils import get_random_user_agent
 import time
 import requests
 from bs4 import BeautifulSoup
-from logger import logger
+from .logger import logger
 
 def map_grade(raw_grade):
     proper_grade = ''
