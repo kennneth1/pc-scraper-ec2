@@ -3,10 +3,35 @@ import json
 import base64
 from botocore.exceptions import ClientError
 from io import StringIO
+import os
 
-def get_secret(secret_name, region_name):
-    session = boto3.session.Session()
-    client = session.client(service_name='secretsmanager', region_name=region_name)
+def get_aws_credentials():
+    aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+    aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+    region_name = "us-east-1"
+
+    session_params = {
+    'region_name': region_name
+    }
+
+    if aws_access_key_id and aws_secret_access_key:
+        print("get_aws_credentials(): using .env credentials")
+        session_params['aws_access_key_id'] = aws_access_key_id
+        session_params['aws_secret_access_key'] = aws_secret_access_key
+    else:
+        print("get_aws_credentials(): No environment variables for credentials found, assuming IAM role")
+        print("session params:", session_params)
+    return boto3.Session(**session_params)
+
+def get_secret():
+    secret_name = os.getenv('AWS_SECRET_NAME')
+    if not secret_name:
+        print("get_secret(): AWS_SECRET_NAME environment variable is not set, returning None secret_name")
+        return None
+    
+    session = get_aws_credentials()
+    client = session.client('secretsmanager')
+    print("get_secret(): got session:", session)
 
     try:
         # Retrieve the secret

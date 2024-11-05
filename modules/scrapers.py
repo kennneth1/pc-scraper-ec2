@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-
+from modules.utils import get_random_user_agent, random_delay
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -145,12 +145,35 @@ def full_set_scraper(set_name):
     print(f'{set_name}: total products scraped={len(product_data)}')
     return product_data
 
-def price_scraper(set_name, poke_name, poke_no, prod_type, set_year, set_month):
+def setup_driver(mode):
+    print("setup_driver(): choosing random agent")
+    user_agent = get_random_user_agent()
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode
+    
+    if mode == "headless":
+        print("setup_driver(): running in headless mode")
+        chrome_options.add_argument("--headless")    
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--window-size=1920,1080")
+    chrome_options.add_argument(f"--user-agent={user_agent}")
+    chrome_options.add_experimental_option('useAutomationExtension', False)
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
-    # Initialize the Chrome driver
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+   
+    if driver is None:
+        print("\nsetup_driver(): driver initialization failed")
+    else:
+        print("\nsetup_driver(): initialized driver")        
+
+    return driver
+
+def price_scraper(set_name, poke_name, poke_no, prod_type, set_year, set_month):
+    driver=setup_driver("notheadless")
     url = f'https://www.pricecharting.com/game/pokemon-{set_name}/{poke_name}-{poke_no}'
     
     if prod_type=='sealed':
