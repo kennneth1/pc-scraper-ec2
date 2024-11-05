@@ -48,7 +48,7 @@ def top_50_set_scraper(set_name):
             data = {}
             logger.info(f"found product name: {product_name}")
 
-            keywords = [" box", "build", "collection", "blister", "bundle", " tin", "booster pack"]
+            keywords = [" box", "build", "battle deck","collection", "blister", "bundle", " tin", "booster pack"]
             # if sealed product
             if any(keyword in product_name for keyword in keywords):                
                 data["product_name"]=product_name.replace("#", "")
@@ -149,7 +149,7 @@ def price_scraper(poke_object, mode="headless"):
         return df
     
     except Exception as e:
-        logger.error(f"price_scraper(): An error occurred: {e} for poke_object.name of column dtypes:", df.dtypes)
+        logger.error(f"price_scraper(): An error occurred: {e} for poke_object.name {poke_object.name}")
 
     finally:
         driver.quit()  # Make sure to close the browser
