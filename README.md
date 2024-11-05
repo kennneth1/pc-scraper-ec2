@@ -25,7 +25,6 @@
 - ssh into the EC2 instance to pull ECR and run app:
    - `ssh -i "C:\Users\YourName\Downloads\pc-keys.pem" ec2-user@ec2-public-ip-this-changes-every-restart.compute-1.amazonaws.com`
    - `aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 808544085525.dkr.ecr.us-east-1.amazonaws.com`
-   - (Optional) run `sudo systemctl start docker` to install start docker if user script could not
    - Pull latest version: `docker pull 808544085525.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
    - `docker run -d --name your-container-name 808544085525.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
    - look at live logs via: `docker logs -f your-container-name`, or Cloudwatch log groups
