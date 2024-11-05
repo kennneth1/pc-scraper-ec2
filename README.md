@@ -17,7 +17,6 @@
 ---
 **Deploy to ECR**
 - `aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 808544085525.dkr.ecr.us-east-1.amazonaws.com`
-- `docker build -t pc-scraper .`
 - `docker tag psa-collector:latest 808544085525.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
 - `docker push 808544085525.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
 
