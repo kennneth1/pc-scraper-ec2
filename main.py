@@ -15,8 +15,8 @@ def main():
     print(f"scraping {len(data)} sets")
     set_count=0
     # scrape each set for top 50 products
-    for set_name, dict in data.items():
-        set_name = set_name
+    for sets, dict in data.items():
+        set_name = sets
         if set_name == "champions-path":
             set_name = "champion%27s-path"
         set_year = dict["set_year"]

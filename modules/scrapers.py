@@ -63,7 +63,7 @@ def top_50_set_scraper(set_name):
                 data["product_type"]="other"
             
             # put "-" inbetween words, remove any trailing "-"
-            data["product_name"]=data["product_name"].replace(" ", "-").rstrip('-')
+            data["product_name"]=data["product_name"].replace(" ", "-").replace("?", "").rstrip('-')
             product_data.append(data)
 
     for data in product_data:
@@ -149,8 +149,6 @@ def price_scraper(poke_object, mode="headless"):
         return df
     
     except Exception as e:
-        # maybe return empty df, does concat later effected by this exceptions? 
-        # Handle the exception
         print(f"price_scraper(): An error occurred: {e}")
 
     finally:
