@@ -3,7 +3,7 @@
    - Data available: Since January 2021, monthly average prices - if scraping a card, the scraper gets these data points for its near mint, PSA7, PSA8, PSA9, BGS9.5, and PSA10 versions
    - https://www.pricecharting.com/game/pokemon-fusion-strike/espeon-vmax-270
 - Once deployed, runs 1x/month to overwrite toto RDS table: `psa_data`
-- Runs on EC2 via chron job (15th of each month) to supply pokescraper (link repo) with updates a day in advance
+- Runs on EC2 via chron job (16th of each month), a day after the PSA collector
 
 
 ---
