@@ -15,7 +15,7 @@ class test():
         self.mode="headless"
 
     def test_top_50_set_scraper(self):
-        products = top_50_set_scraper(self.set_name)[12:] # get first 10
+        products = top_50_set_scraper(self.set_name)[12:] # get first N
         self.products = products
 
     def test_price_scraper(self):
