@@ -6,6 +6,7 @@
 - Runs on EC2 via chron job (16th of each month), a day after the PSA collector
 
 
+![ alt text for screen readers](/images/schema.png "Text to show on mouseover")
 
 
 
