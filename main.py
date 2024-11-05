@@ -1,5 +1,7 @@
 from modules.scrapers import price_scraper, top_50_set_scraper, full_set_scraper
 from modules.cloud import write_csv_to_s3, read_json_from_s3
+from modules.poke_object import PokeObject
+
 import pandas as pd
 from datetime import datetime
 
@@ -32,7 +34,8 @@ def main():
             product_type = product["product_type"]
             
             print(f"({count}/{len(products)}) scraping {name} #{num} from set: {set_name} - {set_year}")
-            df = price_scraper(set_name, name, num, product_type, set_year, set_month)
+            poke_object = PokeObject(set_name, name, num, product_type, set_year, set_month)
+            df = price_scraper(poke_object, mode="headless")
             dataframes.append(df)           
             count+=1
         set_count+=1

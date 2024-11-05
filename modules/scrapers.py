@@ -1,9 +1,7 @@
 import pandas as pd
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-from modules.utils import get_random_user_agent, random_delay
+from modules.utils import get_random_user_agent
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -156,14 +154,10 @@ def setup_driver(mode):
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument('--disable-blink-features=AutomationControlled')
-    chrome_options.add_argument("--disable-extensions")
-    chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument(f"--user-agent={user_agent}")
-    chrome_options.add_experimental_option('useAutomationExtension', False)
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
+    chrome_options.add_argument("--window-size=1920,1080")
     driver = webdriver.Chrome(options=chrome_options)
-    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
    
     if driver is None:
         print("\nsetup_driver(): driver initialization failed")
@@ -172,12 +166,12 @@ def setup_driver(mode):
 
     return driver
 
-def price_scraper(set_name, poke_name, poke_no, prod_type, set_year, set_month):
-    driver=setup_driver("notheadless")
-    url = f'https://www.pricecharting.com/game/pokemon-{set_name}/{poke_name}-{poke_no}'
+def price_scraper(poke_object, mode="headless"):
+    driver=setup_driver(mode)
+    url = f'https://www.pricecharting.com/game/pokemon-{poke_object.set_name}/{poke_object.poke_name}-{poke_object.poke_no}'
     
-    if prod_type=='sealed':
-        url = f'https://www.pricecharting.com/game/pokemon-{set_name}/{poke_name}'
+    if poke_object.prod_type=='sealed':
+        url = f'https://www.pricecharting.com/game/pokemon-{poke_object.set_name}/{poke_object.poke_name}'
         print(f"sealed product has url: {url}")
 
     try:
@@ -194,16 +188,16 @@ def price_scraper(set_name, poke_name, poke_no, prod_type, set_year, set_month):
         
         result = []
 
-        if prod_type=="sealed":
+        if poke_object.prod_type=="sealed":
             nm_data = converted_data["used"]
             for entry in nm_data:
                 entry['grade']='nearmint'
-                entry['poke_name']=poke_name
-                entry['poke_no']=poke_no
-                entry["set_name"]=set_name
+                entry['poke_name']=poke_object.poke_name
+                entry['poke_no']=poke_object.poke_no
+                entry["set_name"]=poke_object.set_name
                 entry["product_type"]="sealed"
-                entry["set_year"] = set_year
-                entry["set_month"] = set_month
+                entry["set_year"] = poke_object.set_year
+                entry["set_month"] = poke_object.set_month
                 result.append(entry)
 
         else:        
@@ -211,12 +205,12 @@ def price_scraper(set_name, poke_name, poke_no, prod_type, set_year, set_month):
                 for entry in price_arr:                    
                     fmt_grade = map_grade(grade)
                     entry['grade']=fmt_grade
-                    entry['poke_name']=poke_name
-                    entry['poke_no']=poke_no
-                    entry["set_name"]=set_name
+                    entry['poke_name']=poke_object.poke_name
+                    entry['poke_no']=poke_object.poke_no
+                    entry["set_name"]=poke_object.set_name
                     entry["product_type"]="card"
-                    entry["set_year"] = set_year
-                    entry["set_month"] = set_month
+                    entry["set_year"] = poke_object.set_year
+                    entry["set_month"] = poke_object.set_month
                     result.append(entry)
         
         print("converting to df")
