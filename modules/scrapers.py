@@ -100,16 +100,16 @@ def price_scraper(poke_object, driver):
     
     if poke_object.product_type=='sealed':
         url = f'https://www.pricecharting.com/game/pokemon-{poke_object.set_name}/{poke_object.name}'
-        print(f"sealed product has url: {url}")
+        print(f"price_scraper(): sealed product has url= {url}")
 
     try:
-        print(f"price_scraper getting url: {url}")
+        print(f"price_scraper(): getting url: {url}")
         driver.get(url)
         time.sleep(5)  # Wait for the page to load
         
         page_source = driver.page_source
         soup = BeautifulSoup(page_source, 'html.parser')
-        print("got soup.head.title:", soup.head.title)
+        print("price_scraper(): got soup.head.title:", soup.head.title)
 
         chart_data = driver.execute_script("return VGPC.chart_data;")
         converted_data = convert_timestamps(chart_data)
@@ -144,13 +144,13 @@ def price_scraper(poke_object, driver):
         print("converting to df")
         df = pd.DataFrame(result)
         df['execution_datetime'] = pd.Timestamp.now()
-        print("df of shape", df.shape, df.head(5))
+        print("price_scraper(): df of shape", df.shape, df.head(5))
         return df
     
     except Exception as e:
         # maybe return empty df, does concat later effected by this exceptions? 
         # Handle the exception
-        print(f"An error occurred: {e}")
+        print(f"price_scraper(): An error occurred: {e}")
 
     finally:
         driver.quit()  # Make sure to close the browser

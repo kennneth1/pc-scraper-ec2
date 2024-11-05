@@ -35,7 +35,7 @@ def main():
             
             print(f"({count}/{len(products)}) scraping {name} #{num} from set: {set_name} - {set_year}")
             poke_object = PokeObject(set_name, name, num, product_type, set_year, set_month)
-            df = price_scraper(poke_object, mode="headless")
+            df = price_scraper(poke_object, driver)
             dataframes.append(df)           
             count+=1
         set_count+=1
