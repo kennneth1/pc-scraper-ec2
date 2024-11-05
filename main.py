@@ -1,4 +1,4 @@
-from modules.scrapers import price_scraper, top_50_set_scraper, full_set_scraper
+from modules.scrapers import price_scraper, top_50_set_scraper
 from modules.cloud import write_csv_to_s3, read_json_from_s3
 from modules.poke_object import PokeObject
 
