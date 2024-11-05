@@ -12,13 +12,14 @@ class test():
         # to test one pokemon with price_scraper
         self.poke_obj= PokeObject("evolutions", "hitmonchan", "62",
                                  "card", "2016", "2")
+        self.mode="headless"
 
     def test_top_50_set_scraper(self):
-        products = top_50_set_scraper(self.set_name)
+        products = top_50_set_scraper(self.set_name)[12:] # get first 10
         self.products = products
 
     def test_price_scraper(self):
-        df = price_scraper(self.poke_obj, mode="visible")
+        df = price_scraper(self.poke_obj, mode=self.mode)
         print("test_price_scraper():", df.info())
         return df
     
@@ -32,8 +33,8 @@ class test():
             
             logger.info(f"({count}/{len(products)}) scraping {name} #{num} from set: {self.set_name} - {self.set_year}")
             poke_object = PokeObject(self.set_name, name, num, product_type, self.set_year, self.set_month)
-            df = price_scraper(poke_object, mode="headless")
-            print("test_loop_set():", poke_object.name, "\ndf info:", df.info())
+            df = price_scraper(poke_object, mode=self.mode)
+            print(f"test_loop_set() iters: {count}", poke_object.name, "\ndf info:", df.info())
             count+=1
     
 if __name__ == "__main__":
@@ -41,4 +42,8 @@ if __name__ == "__main__":
     #generate products to self.products
     session.test_top_50_set_scraper()
     session.test_loop_set(session.products)
+
+    #session.test_price_scraper()
+
+
     print("tests complete")

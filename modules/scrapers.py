@@ -111,7 +111,7 @@ def price_scraper(poke_object, mode="headless"):
         
         page_source = driver.page_source
         soup = BeautifulSoup(page_source, 'html.parser')
-        logger.info("price_scraper(): got soup.head.title:", soup.head.title)
+        logger.info(f"price_scraper(): got soup.head.title: {str(soup.head.title)}")
 
         chart_data = driver.execute_script("return VGPC.chart_data;")
         converted_data = convert_timestamps(chart_data)
@@ -143,14 +143,13 @@ def price_scraper(poke_object, mode="headless"):
                     entry["set_month"] = poke_object.set_month
                     result.append(entry)
         
-        logger.info("converting to df")
         df = pd.DataFrame(result)
         df['execution_datetime'] = pd.Timestamp.now()
-        logger.info("price_scraper(): df of shape", df.shape, df.head(5))
+        logger.info(f"price_scraper() df of shape {df.shape}:\n{df.head(5)}")
         return df
     
     except Exception as e:
-        logger.error(f"price_scraper(): An error occurred: {e}")
+        logger.error(f"price_scraper(): An error occurred: {e} for poke_object.name of column dtypes:", df.dtypes)
 
     finally:
         driver.quit()  # Make sure to close the browser
