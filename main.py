@@ -1,4 +1,4 @@
-from modules.scrapers import price_scraper, top_50_set_scraper, setup_driver
+from modules.scrapers import price_scraper, top_50_set_scraper
 from modules.cloud import write_csv_to_s3, read_json_from_s3
 from modules.poke_object import PokeObject
 
@@ -26,7 +26,7 @@ def main():
         count=0
         # returns up to 50 top expensive products in set
         products = top_50_set_scraper(set_name)
-        driver = setup_driver(mode="headless")
+
         # scrape historical data for each product (50 products per set, 30 set~, 1500 drivers and scrapes)
         for product in products:
             name = product["product_name"]
@@ -35,7 +35,7 @@ def main():
             
             print(f"({count}/{len(products)}) scraping {name} #{num} from set: {set_name} - {set_year}")
             poke_object = PokeObject(set_name, name, num, product_type, set_year, set_month)
-            df = price_scraper(poke_object, driver)
+            df = price_scraper(poke_object, mode="headless")
             dataframes.append(df)           
             count+=1
         set_count+=1
