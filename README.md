@@ -6,6 +6,12 @@
 - Runs on EC2 via chron job (16th of each month), a day after the PSA collector
 
 
+
+
+
+
+
+
 ---
 **Running with docker**:
 - Download Docker for MacOS, or Docker Desktop for Windows
