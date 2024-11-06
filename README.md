@@ -29,7 +29,7 @@
 - `docker push 808544085525.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
 
 **Run on EC2**:
-- launch a t2.small EC2 instance (recommend: AMI2) or larger, set up installation of docker, log locations, and cloudwatch agent in EC2 user script
+- launch a t2.medium	 EC2 instance (AMI2) or larger (4GB+ mem recommended), set up installation of docker, log locations, and cloudwatch agent in EC2 user script
 - ssh into the EC2 instance to pull ECR and run app:
    - `ssh -i "C:\Users\YourName\Downloads\pc-keys.pem" ec2-user@ec2-public-ip-this-changes-every-restart.compute-1.amazonaws.com`
    - `aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 808544085525.dkr.ecr.us-east-1.amazonaws.com`
