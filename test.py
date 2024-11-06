@@ -6,7 +6,7 @@ from modules.scrapers import price_scraper
 class test():
     def __init__(self):
         # to test one set"
-        self.set_name = "evolutions" 
+        self.set_name = "scarlet-&-violet-151" 
         self.set_year = "2016"
         self.set_month = "2"
         # to test one pokemon with price_scraper
@@ -40,10 +40,10 @@ class test():
 if __name__ == "__main__":
     session = test()
     #generate products to self.products
-    #session.test_top_50_set_scraper()
-    #session.test_loop_set(session.products)
+    session.test_top_50_set_scraper()
+    session.test_loop_set(session.products)
 
-    session.test_price_scraper()
+    #session.test_price_scraper()
 
 
     print("tests complete")

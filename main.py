@@ -19,7 +19,11 @@ def main():
     for sets, dict in data.items():
         set_name = sets
         if set_name == "champions-path":
+            print("reformatting champions path set name to scarlet-&-violet-151")
             set_name = "champion%27s-path"
+        if set_name == "151":
+            print("reformatting 151 set name to scarlet-&-violet-151")
+            set_name = "scarlet-&-violet-151"
         set_year = dict["set_year"]
         set_month = dict["set_month"]
         logger.info(f"scraping set {set_name}: {set_count} of {len(data)}")
