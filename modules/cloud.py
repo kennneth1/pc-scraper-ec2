@@ -84,3 +84,12 @@ def write_csv_to_s3(dataframe, bucket_name, s3_file_path, aws_access_key_id=None
     
     # Write the CSV buffer to S3
     s3_client.put_object(Bucket=bucket_name, Key=s3_file_path, Body=csv_buffer.getvalue())
+
+# Shut down EC2 instance
+def shutdown_instance():
+    instance_id = os.popen("curl http://169.254.169.254/latest/meta-data/instance-id").read().strip()
+    ec2_client = boto3.client('ec2')
+    ec2_client.terminate_instances(InstanceIds=[instance_id])
+    logger.info(f"Terminating instance {instance_id}...")
+
+shutdown_instance()
