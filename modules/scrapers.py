@@ -145,7 +145,7 @@ def price_scraper(poke_object, mode="headless"):
         
         df = pd.DataFrame(result)
         df['execution_datetime'] = pd.Timestamp.now()
-        logger.info(f"price_scraper() df of shape {df.shape}:\n{df.head(5)}")
+        logger.info(f"price_scraper() df of shape {df.shape}:\n{df.tail(3)}\n{df.head(3)}")
         return df
     
     except Exception as e:

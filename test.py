@@ -10,8 +10,8 @@ class test():
         self.set_year = "2016"
         self.set_month = "2"
         # to test one pokemon with price_scraper
-        self.poke_obj= PokeObject("evolutions", "hitmonchan", "62",
-                                 "card", "2016", "2")
+        self.poke_obj= PokeObject("evolving-skies", "rayquaza", "194",
+                                 "card", "2021", "8")
         self.mode="headless"
 
     def test_top_50_set_scraper(self):
@@ -40,10 +40,10 @@ class test():
 if __name__ == "__main__":
     session = test()
     #generate products to self.products
-    session.test_top_50_set_scraper()
-    session.test_loop_set(session.products)
+    #session.test_top_50_set_scraper()
+    #session.test_loop_set(session.products)
 
-    #session.test_price_scraper()
+    session.test_price_scraper()
 
 
     print("tests complete")
