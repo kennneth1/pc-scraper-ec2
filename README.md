@@ -46,7 +46,3 @@
 - pandas
 - boto3: get `config.json` from S3, dump final CSV
 
----
-**In prog**:
-- Consider using concurrency to handle scraping each product's 3 year monthly, average, price history
-
