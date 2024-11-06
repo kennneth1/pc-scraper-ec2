@@ -35,6 +35,10 @@ def main():
         # scrape historical data for each product (50 products per set, 30 set~, 1500 drivers and scrapes)
         for product in products:
             name = product["product_name"]
+            if "." in name:
+                name = name.replace(".", "")
+                logger.info(". found in pokemon name, reformatting as", name)
+        
             num = product["poke_no"]
             product_type = product["product_type"]
             
