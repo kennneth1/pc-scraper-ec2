@@ -85,19 +85,19 @@ def write_csv_to_s3(dataframe, bucket_name, s3_file_path, aws_access_key_id=None
     # Write the CSV buffer to S3
     s3_client.put_object(Bucket=bucket_name, Key=s3_file_path, Body=csv_buffer.getvalue())
 
-def shutdown_instance():
-    # Fetch instance ID using IMDSv2 if required
-    try:
-        token = os.popen("curl -X PUT http://169.254.169.254/latest/api/token -H 'X-aws-ec2-metadata-token-ttl-seconds: 21600'").read().strip()
-        instance_id = os.popen(f"curl -H 'X-aws-ec2-metadata-token: {token}' http://169.254.169.254/latest/meta-data/instance-id").read().strip()
-    except Exception as e:
-        logger.error(f"Error fetching instance ID: {e}")
-        return
+#def shutdown_instance():
+#    # Fetch instance ID using IMDSv2 if required
+#    try:
+#        token = os.popen("curl -X PUT http://169.254.169.254/latest/api/token -H 'X-aws-ec2-metadata-token-ttl-seconds: 21600'").read().strip()
+#        instance_id = os.popen(f"curl -H 'X-aws-ec2-metadata-token: {token}' http://169.254.169.254/latest/meta-data/instance-id").read().strip()
+#    except Exception as e:
+#        logger.error(f"Error fetching instance ID: {e}")
+#        return
 
-    if not instance_id:
-        logger.error("Instance ID is empty or malformed")
-        return
+#    if not instance_id:
+#        logger.error("Instance ID is empty or malformed")
+#        return
 
-    logger.info(f"Shutting down EC2 instance {instance_id}...")
-    ec2_client = boto3.client('ec2')
-    ec2_client.terminate_instances(InstanceIds=[instance_id])
+ #   logger.info(f"Shutting down EC2 instance {instance_id}...")
+ #   ec2_client = boto3.client('ec2')
+ #   ec2_client.terminate_instances(InstanceIds=[instance_id])

@@ -1,5 +1,5 @@
 from modules.scrapers import price_scraper, top_50_set_scraper
-from modules.cloud import write_csv_to_s3, read_json_from_s3, shutdown_instance
+from modules.cloud import write_csv_to_s3, read_json_from_s3
 from modules.poke_object import PokeObject
 from modules.logger import logger
 
@@ -19,7 +19,7 @@ def main():
     for sets, dict in data.items():
         set_name = sets
         if set_name == "champions-path":
-            print("reformatting champions path set name to scarlet-&-violet-151")
+            print("reformatting champions path set name to champion%27s-path")
             set_name = "champion%27s-path"
         if set_name == "151":
             print("reformatting 151 set name to scarlet-&-violet-151")
@@ -61,10 +61,10 @@ def main():
     #write to s3 bucket as csv
     bucket = "pricecharting-scraper-outputs"
     file_path = f"{formatted_date}/pc.csv"
-    logger.info("saving to S3, final_df of shape:", final_df.shape, final_df.head(5))
+    logger.info(f"saving to S3 final_df of shape: {final_df.shape},\n {final_df.head(5)}")
     write_csv_to_s3(final_df, bucket, file_path, aws_access_key_id=None, aws_secret_access_key=None)
     logger.info("successfully wrote pc.csv to s3")
-    shutdown_instance()
+    #shutdown_instance()
 
 if __name__ == "__main__":
     main()
