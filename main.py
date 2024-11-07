@@ -11,7 +11,7 @@ def main():
     dataframes = []
     logger.info("getting config.json from s3")
     data = read_json_from_s3("configs-pc-psa", "config.json")
-    logger.info("got config.json:", str(data)[:99], "...\n")
+    logger.info(f"got config.json: {str(data)[:99]}...\n")
 
     print(f"scraping {len(data)} sets")
     set_count=0
