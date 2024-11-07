@@ -42,7 +42,7 @@ def main():
             num = product["poke_no"]
             product_type = product["product_type"]
             
-            logger.info(f"({count}/{len(products)}) scraping {name} #{num} from set: {set_name} - {set_year}")
+            logger.info(f"({count}/{len(products)}) scraping {name} #{num} from set #{set_count}: {set_name} - {set_year}")
             poke_object = PokeObject(set_name, name, num, product_type, set_year, set_month)
             df = price_scraper(poke_object, mode="headless")
             dataframes.append(df)           
