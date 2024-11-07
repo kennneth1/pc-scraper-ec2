@@ -49,7 +49,7 @@ def main():
             count+=1
         set_count+=1
 
-        logger.info("products added to dataframes:", len(dataframes))
+        logger.info(f"products added to dataframes: {len(dataframes)}")
 
     logger.info("concat all dfs")
     # Concatenate all DataFrames in the list into a single DataFrame
