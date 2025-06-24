@@ -1,6 +1,6 @@
 Scrapes https://www.pricecharting.com for price data on the top 50 most expensive products in a set, for all set names stored in a S3 `config.json` file, then writes as CSV to another S3 bucket (price-charting-scraper-output) to trigger downstream Lambda (see diagram)
    - Data available: Since January 2021, monthly average prices - if scraping a card, the scraper gets these data points for its near mint, PSA7, PSA8, PSA9, BGS9.5, and PSA10 versions
-   - Table is denormalized and meant conveniently serve visualizations or queries to an analytics frontend like Streamlit or some Shinylive/React/Flask/Dask stack
+   - Table is denormalized and meant to conveniently serve visualizations or queries to an analytics frontend like Streamli
    - example url: https://www.pricecharting.com/game/pokemon-fusion-strike/espeon-vmax-270
 - Once deployed, runs 1x/month and writes to RDS table: `psa_data`
 - Runs on EC2 via chron job (16th of each month), a day after the PSA collector (See Diagram below)
