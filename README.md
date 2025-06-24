@@ -23,18 +23,18 @@ Scrapes https://www.pricecharting.com for price data on the top 50 most expensiv
 
 ---
 **Deploy to ECR**
-- `aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 808544085525.dkr.ecr.us-east-1.amazonaws.com`
-- `docker tag pc-scraper:latest 808544085525.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
-- `docker push 808544085525.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
+- `aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin acc_id.dkr.ecr.us-east-1.amazonaws.com`
+- `docker tag pc-scraper:latest acc_id.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
+- `docker push acc_id.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
 
 **Run on EC2**:
 - launch a t2.medium	 EC2 instance (AMI2) or larger (4GB+ mem recommended), set up installation of docker, log locations, and cloudwatch agent in EC2 user script
 - ssh into the EC2 instance to pull ECR and run app:
    - `ssh -i "C:\Users\YourName\Downloads\pc-keys.pem" ec2-user@ec2-public-ip-this-changes-every-restart.compute-1.amazonaws.com`
-   - `aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 808544085525.dkr.ecr.us-east-1.amazonaws.com`
-   - Pull latest version: `docker pull 808544085525.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
+   - `aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin acc_id.dkr.ecr.us-east-1.amazonaws.com`
+   - Pull latest version: `docker pull acc_id.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
    - Start docker if user script did not: `sudo systemctl start docker`
-   - `docker run -d --name your-container-name 808544085525.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
+   - `docker run -d --name your-container-name acc_id.dkr.ecr.us-east-1.amazonaws.com/pc-scraper:latest`
    - look at live logs via: `docker logs -f your-container-name`, or Cloudwatch log groups
 
 
